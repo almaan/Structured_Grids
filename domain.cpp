@@ -12,6 +12,7 @@ class Domain {
 		Domain& operator=(Domain&);
 		~Domain();
 		void make_grid (int m, int n);
+		double return xmap()
 
 
 };
@@ -33,14 +34,30 @@ void Domain::make_grid(int m, int n){
 	if (!(m <= 0) && (n <= 0)) {
 		std::cout << "Erasing old grid" << std::endl;
 		delete [] x_;
-		delete [] y;
+		delete [] y_;
 	}	
 
 	m_ = m;
 	n_ = n;
 
-	x_ = new double [m_*n_];
-	y_ = new double [m_*n_];
+	int n_points = m_*n_;
 
+	x_ = new double [n_points];
+	y_ = new double [n_points];
+
+	for (int ii = 0; ii < n_; ii++){
+		for (int jj = 0; jj < m_; jj++){
+			if (jj != 0) {
+				x_[ii*m_ + jj] = 1.0/jj;
+			} else {
+				x_[ii*m_ + jj] = 0.0;
+			}
+			if (ii != 0) {
+				y_[ii*m_ + jj] = 1.0/ii;
+			} else {
+				y_[ii*m_ + jj] = 0.0;
+			}
+		}
+	}
 
 }
