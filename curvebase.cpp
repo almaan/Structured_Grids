@@ -95,7 +95,8 @@ double Curvebase::y(double s){
 };
 
 double Curvebase::solve(double s) {
-	double p = (s*pmax + pmin) * 0.5;
+	//std::cout << "Solve : s > " <<  s << std::endl;
+	double p = (s*pmax + pmin) * 0.5;	
 	double p_new = p + 1.0;
 	int n_iter = 0;
 	const int maxiter = 100;
@@ -112,9 +113,9 @@ double Curvebase::solve(double s) {
 		++n_iter;
 	}
 
-	if (n_iter == maxiter) {
+	if (n_iter >= maxiter) {
 		std::cout << "ERROR: Convergence not reached." << std::endl;
 	}
-
+	//std::cout << "point appr > s -> "<< s << ":" << p_new << std::endl;
 	return p_new;
 };

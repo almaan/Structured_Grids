@@ -1,0 +1,12 @@
+algebraic_grid_generation.png
+dump/
+flo.o
+fo.o
+full_layout.cpp
+function_pass.cpp
+grid.dat
+grid_test.cpp
+grid_test.o
+grod.o
+#all output
+*.o
