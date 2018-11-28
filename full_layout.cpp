@@ -2,6 +2,8 @@
 
 #include <iostream>
 #include <cmath>
+#include <cstdio>
+#include <string>
 #include "hline.h"
 #include "vline.h"
 
@@ -131,23 +133,60 @@ class Domain {
 		double *x_, *y_;
 		int m_, n_;
 		int n_points;
-//		bool check_consistency();
 
-	public:
-		Domain(Curvebase &s1, Curvebase &s2,
-			   Curvebase &s3, Curvebase &s4);
-//		Domain(const Domain&);
-//		Domain& operator=(Domain&);
-		~Domain();
-		void make_grid (int m, int n);
 		double xmap(double r, double s);
 		double ymap(double r, double s);
-		void printCoordinates(void);
 
+	public:
+		Domain();
+		Domain(Curvebase &s1, Curvebase &s2,
+			   Curvebase &s3, Curvebase &s4);
+		Domain(const Domain &d);
+		Domain& operator=(const Domain &d);
+		~Domain();
+		void make_grid (int m, int n);
+
+		void printCoordinates(void);
+		void saveCoordinates(bool user_input);
 
 };
 
+Domain::Domain(){};
+
 Domain::~Domain(){};
+
+Domain::Domain(const Domain &d) {
+	for (int ii = 0; ii <=3; ii++) {
+		sides[ii] = d.sides[ii];
+	} 
+	x_ = d.x_;
+	y_ = d.y_;
+
+	m_ = d.m_;
+	n_ = d.n_;
+	n_points = d.n_points;
+};
+
+Domain & Domain::operator=(const Domain &d) {
+	if (this == &d) {
+		return *this;
+	} else {
+
+		for (int ii = 0; ii <=3; ii++) {
+			sides[ii] = d.sides[ii];
+		} 
+		x_ = d.x_;
+		y_ = d.y_;
+
+		m_ = d.m_;	
+		n_ = d.n_;
+		n_points = d.n_points;	
+	}
+
+	return *this;
+
+}
+
 
 Domain::Domain(Curvebase &s1, Curvebase &s2,
 			   Curvebase &s3, Curvebase &s4){
@@ -236,11 +275,35 @@ void Domain::make_grid(int m, int n){
 }
 
 void Domain::printCoordinates(void) {
-	std::cout << "#>" << std::endl;
 	for (int ii = 0; ii < n_points; ii++)
 		{
    		 std::cout << x_[ii] << "," << y_[ii] << std::endl;
 		} 
+}
+
+void Domain::saveCoordinates(bool user_input = false) {
+	std::string outname;
+
+	if (user_input){
+			std::cout << "Enter name to save file to >> ";
+			std::cin >> outname;
+	} else {
+		outname = "generated_grid.bin";
+	}
+
+	std::string x_outname = "x_vec_" + outname;
+	std::string y_outname = "y_vec_" + outname;
+
+	FILE *fp_x;
+	fp_x =fopen(x_outname.c_str(),"wb");
+	fwrite(x_,sizeof(double),m_*n_,fp_x);
+	fclose(fp_x);
+
+	FILE *fp_y;
+	fp_y =fopen(y_outname.c_str(),"wb");
+	fwrite(y_,sizeof(double),m_*n_,fp_y);
+	fclose(fp_y);
+
 }
 
 
@@ -274,9 +337,12 @@ int main(){
 	topb.setLength();
 	topb.printInfo();
 
+
 	std::cout << "\n Domain Information: " << std::endl;
 
 	Domain dmn(leftb, botb, rightb, topb);
+
+
 	int n_rows, n_cols;
 	std::cout << "Enter number of rows > ";
 	std::cin >> n_rows;
@@ -285,6 +351,13 @@ int main(){
 
 	dmn.make_grid(n_rows,n_cols);
 	dmn.printCoordinates();
+
+	Domain dmn2(dmn);
+	Domain dmn3;
+
+	dmn3 = dmn2;
+
+	dmn3.saveCoordinates(false);
 
 	return 0;
 }
