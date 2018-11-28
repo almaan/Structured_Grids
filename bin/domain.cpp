@@ -143,8 +143,8 @@ void Domain::saveCoordinates(bool user_input = false) {
 		outname = "generated_grid.bin";
 	}
 
-	std::string x_outname = "x_vec_" + outname;
-	std::string y_outname = "y_vec_" + outname;
+	std::string x_outname = "../res/x_vec_" + outname;
+	std::string y_outname = "../res/y_vec_" + outname;
 
 	FILE *fp_x;
 	fp_x =fopen(x_outname.c_str(),"wb");
