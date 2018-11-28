@@ -3,6 +3,10 @@
 
 #include "domain.h"
 
+/*
+
+*/
+
 Domain::Domain(){};
 
 Domain::~Domain(){};
@@ -39,7 +43,7 @@ Domain & Domain::operator=(const Domain &d) {
 
 }
 
-
+//TODO: if time write random order acceptance function
 Domain::Domain(Curvebase &s1, Curvebase &s2,
 			   Curvebase &s3, Curvebase &s4){
 	
@@ -52,6 +56,7 @@ Domain::Domain(Curvebase &s1, Curvebase &s2,
 	x_, y_ = nullptr;
 
 };
+
 
 double Domain::xmap(double r, double s) {
 	// r is x coordinate in [0,1]

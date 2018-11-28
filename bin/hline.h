@@ -12,7 +12,7 @@ class Horzline : public Curvebase {
 		virtual double yfunc(double p) = 0;
 		virtual double yfuncd(double p) = 0;
 	public:
-		Horzline(double a, double b) : Curvebase(a,b) {};
+		Horzline(double a, double b, bool dir) : Curvebase(a,b,dir) {};
 		Horzline();
 		~Horzline();
 };

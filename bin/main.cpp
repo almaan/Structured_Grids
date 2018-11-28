@@ -17,7 +17,7 @@ class LeftRightBorder : public Vertline {
 		
 
 	public:
-		LeftRightBorder(double a, double b) : Vertline(a,b) {};
+		LeftRightBorder(double a, double b, bool dir) : Vertline(a,b, dir) {};
 		~LeftRightBorder();
 		void setXpos(double p);
 		void setLength(void);
@@ -51,7 +51,7 @@ class TopBorder : public Horzline {
 		double yfuncd(double p);
 
 	public:
-		TopBorder(double a, double b) : Horzline(a,b) {};
+		TopBorder(double a, double b, bool dir) : Horzline(a,b,dir) {};
 		~TopBorder();
 		void setYpos(double p);
 		void setLength(void);
@@ -84,7 +84,7 @@ class BottomBorder : public Horzline{
 		double yfunc(double p);
 		double yfuncd(double p);
 	public:
-		BottomBorder(double a, double b) : Horzline(a,b) {};
+		BottomBorder(double a, double b, bool dir) : Horzline(a,b,dir) {};
 		~BottomBorder();
 };
 
@@ -135,7 +135,7 @@ int main(){
 	std::cout << "\n" << "Test of Curvebase class" << std::endl;
 
 	std::cout << "Left Border" << std::endl;
-	LeftRightBorder leftb(0.0,3.0);
+	LeftRightBorder leftb(0.0,3.0,false);
 	leftb.setXpos(-10.0);
 	leftb.setLength();
 	leftb.printInfo();
@@ -143,21 +143,21 @@ int main(){
 
 	std::cout << "\n";
 	std::cout << "Right border" << std::endl;
-	LeftRightBorder rightb(0.0,3.0);
+	LeftRightBorder rightb(0.0,3.0, true );
 	rightb.setXpos(5.0);
 	rightb.setLength();
 	rightb.printInfo();
 
 	std::cout << "\n" ;
 	std::cout << "Bottom Border " << std::endl;
-	BottomBorder botb(-10.0, 5.0);
+	BottomBorder botb(-10.0, 5.0,true);
 	botb.setLength();
 	botb.printInfo();
 
 
 	std::cout << "\n";
 	std::cout << "Top Border" << std::endl;
-	TopBorder topb(-10.0, 5.0);
+	TopBorder topb(-10.0, 5.0, false);
 	topb.setYpos(3.0);
 	topb.setLength();
 	topb.printInfo();

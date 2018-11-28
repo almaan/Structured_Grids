@@ -15,7 +15,7 @@ class Vertline : public Curvebase {
 		virtual double xfuncd(double p) = 0;
 
 	public:
-		Vertline(double a, double b) : Curvebase(a,b) {};
+		Vertline(double a, double b, bool dir) : Curvebase(a,b, dir) {};
 		Vertline();
 		~Vertline();
 };
