@@ -10,3 +10,5 @@ grid_test.o
 grod.o
 #all output
 *.o
+*.dat
+*.bin
