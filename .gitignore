@@ -12,3 +12,5 @@ grod.o
 *.o
 *.dat
 *.bin
+SF2565*/
+hidden_results/
