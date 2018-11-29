@@ -5,30 +5,33 @@
 
 class Domain {
 	private:
-		Curvebase *sides[4];
-		double *x_, *y_;
-		int m_, n_;
-		int n_points;
+		Curvebase *sides[4]; //Holder for boundary curves
+		double *x_, *y_; //arrays for coordinate vectors, pointers for Dynamic Memory Allocation 
+		int m_, n_; //number of intervals in vertical (m) and horizontal (n) direction
+		int n_points; //total number of points
 
-		double xmap(double r, double s);
-		double ymap(double r, double s);
+		double xmap(double r, double s);//x-coordinate mapping from unit square do domain
+		double ymap(double r, double s);//y-coordinate mapping from unit square do domain
 
-		bool lower_resolve = false;
+		bool lower_resolve = false;//use lower-boundary resolution if true
 
 	public:
-		Domain();
+		Domain(); //Default constructur
 		Domain(Curvebase &s1, Curvebase &s2,
-			   Curvebase &s3, Curvebase &s4);
-		Domain(const Domain &d);
-		Domain& operator=(const Domain &d);
-		~Domain();
-		void make_grid (int m, int n);
-		void check_consistency(void);
-		Curvebase * getSide(int s);
-		void printCoordinates(void);
-		void saveCoordinates(bool user_input);
-		double sigmaT(double s);
-		void doLowerResolve(bool a);
+			   Curvebase &s3, Curvebase &s4); //constructor when provided four boundary curves
+		Domain(const Domain &d); //copy  constructor
+		Domain& operator=(const Domain &d); //assignment operator overloading
+		~Domain(); //default destructor
+
+		void check_consistency(void);//assign proper side-identity to boundary curves
+		void make_grid (int m, int n);//make a mxn-grid over the domain. Will remove old grid.
+
+		Curvebase * getSide(int s);//reuturns the boundary curve of provided identity
+		double sigmaT(double s);//distribution of y-coordinates when refinement is used
+		void doLowerResolve(bool a);//will increase resolution of lower boundary if true
+
+		void printCoordinates(void);//print the coordinates as comma separated tuples
+		void saveCoordinates(bool user_input);//save coordinates.
 
 };
 #endif

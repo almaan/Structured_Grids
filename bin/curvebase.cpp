@@ -37,6 +37,7 @@ Curvebase::Curvebase(const Curvebase &cb) {
 
 
 //Simpson Adaptive Integration
+//Uses Recursion 
 double Curvebase::integrate(double p, double lower){
 
 	double errest = tol + 1.0;
@@ -58,6 +59,8 @@ double Curvebase::integrate(double p, double lower){
 
 };
 
+//Helper functions for integrate-function
+
 //helper function for integrate function
 double Curvebase::I1(double a_in, double b_in){
 		return ((b_in -a_in)/6.0)*(function(a_in)+4*function(0.5*(a_in + b_in)) + function(b_in));
@@ -75,7 +78,7 @@ double Curvebase::function(double p) {
 	return sqrt( pow(dxp(p),2) + pow(dyp(p),2));
 };
 
-
+//End of Helper functions for integrate-function
 
 //returns x-coordinate of relative position along curve
 //relative position is given in interval [0,1]
@@ -83,9 +86,9 @@ double Curvebase::x(double s){
 	if ( abs(s) > 1.0) {
 		std::cout << "ERROR: bad relative position of x-coordinate" << std::endl;
 	}
-	//get actual length to relative position
+	//get parametrized poisiton from relative position
 	double p = solve(s);
-	//get actual x-coordinate for relative position 
+	//get actual y-coordinate for parametrized position 
 	return xp(p);
 };
 
@@ -95,14 +98,14 @@ double Curvebase::y(double s){
 	if ( abs(s) > 1.0) {
 		std::cout << "ERROR: bad relative position of x-coordinate" << std::endl;
 	}
-	//get actual length to relative position
+	//get parametrized poisiton from relative position
 	double p = solve(s);
-	//get actual y-coordinate for relative position 
+	//get actual y-coordinate for parametrized position 
 	return yp(p);
 
 };
 
-//Newton Rhapson's method to find actual length
+//Newton Rhapson's method to parametrized value
 //corresponding to relative position
 double Curvebase::solve(double s) {
 	
@@ -124,8 +127,7 @@ double Curvebase::solve(double s) {
 			std::cout << "Zero Division. Bad Value." << std::endl;
 			p_new = p + eps;
 		} else {
-			//p_new = p - (integrate(p,pmin) - s*length) / function(p);
-			p_new = p - (abs(integrate(p,pmin)) - s*length) / function(p);
+			p_new = p - (integrate(p,pmin) - s*length) / function(p);
 			
 		}
 		++n_iter;
@@ -142,6 +144,7 @@ void Curvebase::reverse_orientation(void){
 	rev = !rev;
 };
 
+//returns orientation of curve
 bool Curvebase::ori(void){
 	return rev;
 }
