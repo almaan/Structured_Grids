@@ -3,8 +3,9 @@
 
 #include "curvebase.h"
 
-//abstract class for vertical lines where x-coordinate is 
+//abstract class for hertical lines where x-coordinate is 
 //a function of the y-coordinate
+
 class Horzline : public Curvebase {
 	protected:
 

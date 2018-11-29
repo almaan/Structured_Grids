@@ -3,6 +3,9 @@
 
 #include "curvebase.h"
 
+//class to represent four sided domains
+//allows user to generate grids of desired size
+
 class Domain {
 	private:
 		Curvebase *sides[4]; //Holder for boundary curves
