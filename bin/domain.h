@@ -13,6 +13,8 @@ class Domain {
 		double xmap(double r, double s);
 		double ymap(double r, double s);
 
+		bool lower_resolve = false;
+
 	public:
 		Domain();
 		Domain(Curvebase &s1, Curvebase &s2,
@@ -21,9 +23,12 @@ class Domain {
 		Domain& operator=(const Domain &d);
 		~Domain();
 		void make_grid (int m, int n);
-
+		void check_consistency(void);
+		Curvebase * getSide(int s);
 		void printCoordinates(void);
 		void saveCoordinates(bool user_input);
+		double sigmaT(double s);
+		void doLowerResolve(bool a);
 
 };
 #endif

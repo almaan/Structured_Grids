@@ -10,7 +10,7 @@ protected:
 	double pmin; //lower boundary of curve
 	double pmax; //upper boundary of curve
 	double mid; //mid point of curve
-	bool rev = 1; // orientation of the curve, default positive
+	bool rev = true; // orientation of the curve, default positive
 	double tol; //tolerance
 
 	double length; //length of curve

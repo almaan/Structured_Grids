@@ -1,5 +1,6 @@
 #include <iostream>
 #include <cstdio>
+#include <cmath>
 
 #include "domain.h"
 
@@ -55,13 +56,18 @@ Domain::Domain(Curvebase &s1, Curvebase &s2,
 	m_ = n_ = 0;
 	x_, y_ = nullptr;
 
+	check_consistency();
+
 };
 
+Curvebase * Domain::getSide(int s) {
+	return sides[s];
+};
 
 double Domain::xmap(double r, double s) {
 	// r is x coordinate in [0,1]
 	// s is y coordinate in [0,1]
-
+	s = sigmaT(s);
 	double pos = (1. - r)*sides[0]->x(s) +
 				  r*sides[2]->x(s) + 
 				  (1.-s)*sides[1]->x(r) +
@@ -82,6 +88,10 @@ double Domain::ymap(double r, double s) {
 
 	if (s < 0 || s > 1 || r < 0 || r > 1) {
 		std::cout << "parameters out of bound" << std::endl;
+	}
+
+	if (lower_resolve){
+		s = sigmaT(s);
 	}
 
 	double pos = (1. - r)*sides[0]->y(s) +
@@ -131,18 +141,50 @@ void Domain::make_grid(int m, int n){
 
 }
 
+void Domain::check_consistency(void){
+	int neg[2], pos[2];
+	int p = 0, n = 0;
+	Domain tmp(*this);
+	for(int ii = 0; ii < 4; ii++) {
+		if(sides[ii]->ori()){
+			pos[p] = ii;
+			p++;
+		} else {
+			neg[n] = ii;
+			n++;
+		}
+	}
+
+	int p_neg = (int)(tmp.getSide(neg[0])->y(0.0) < tmp.getSide(neg[1])->y(0.0));
+	sides[0] = tmp.getSide(neg[1-p_neg]);
+	sides[3] = tmp.getSide(neg[p_neg]);
+
+	int p_pos =  (int)(tmp.getSide(pos[0])->x(0.0) < tmp.getSide(pos[1])->x(0.0));
+	sides[1] = tmp.getSide(pos[1-p_pos]);
+	sides[2] = tmp.getSide(pos[p_pos]);
+
+};
+
+double Domain::sigmaT(double sigma) {
+	return 1 + tanh(3.0 * (sigma-1.0))/tanh(3.0);
+};
+
+void Domain::doLowerResolve(bool a) {
+	lower_resolve = a;
+}
+
 void Domain::printCoordinates(void) {
 	for (int ii = 0; ii < n_points; ii++)
 		{
    		 std::cout << x_[ii] << "," << y_[ii] << std::endl;
 		} 
-}
+};
 
 void Domain::saveCoordinates(bool user_input = false) {
 	std::string outname;
 
 	if (user_input){
-			std::cout << "Enter name to save file to >> ";
+			std::cout << "Enter suffix of file to save coordinates to >> ";
 			std::cin >> outname;
 	} else {
 		outname = "generated_grid.bin";
@@ -161,4 +203,4 @@ void Domain::saveCoordinates(bool user_input = false) {
 	fwrite(y_,sizeof(double),m_*n_,fp_y);
 	fclose(fp_y);
 
-}
+};

@@ -111,6 +111,7 @@ double Curvebase::solve(double s) {
 	double p = s*(pmax - pmin); 
 	double p_new;
 	double eps = 1e-10;
+	double lower;
 
 	int n_iter = 0;
 	const int maxiter = 100;
@@ -123,7 +124,8 @@ double Curvebase::solve(double s) {
 			std::cout << "Zero Division. Bad Value." << std::endl;
 			p_new = p + eps;
 		} else {
-			p_new = p - (integrate(p,pmin) - s*length) / function(p);
+			//p_new = p - (integrate(p,pmin) - s*length) / function(p);
+			p_new = p - (abs(integrate(p,pmin)) - s*length) / function(p);
 			
 		}
 		++n_iter;

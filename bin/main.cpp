@@ -163,17 +163,23 @@ int main(){
 	topb.printInfo();
 
 	std::cout << "\n" << std::endl;
-	std::cout << "Task 3-4" << std::endl;
+	std::cout << "Task 3-5" << std::endl;
 	std::cout << "using above defined boundary curves to generate domain Omega" << std::endl;
-	Domain omega(leftb, botb, rightb, topb);
 
+	Domain omega(botb, topb,rightb,leftb);
 
 	int n_rows = 50;
 	int n_cols = 20;
 
 	omega.make_grid(n_rows, n_cols);
 	omega.saveCoordinates(false);
-	std::cout << "saved x and y coordinates of grid" << std::endl;
+	std::cout << "saved x and y coordinates of normal grid" << std::endl;
+	/*
+	omega.doLowerResolve(true);
+	omega.make_grid(n_rows, n_cols);
+	omega.saveCoordinates(true);
+	std::cout << "saved x and y coordinates of lower boundary resolved grid" << std::endl;
+	*/
 
 	return 0;
 }
